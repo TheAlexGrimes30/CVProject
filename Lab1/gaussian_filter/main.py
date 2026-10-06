@@ -2,12 +2,18 @@ from pathlib import Path
 
 import numpy as np
 
-from Lab1.sobel.algorithm import sobel_opencv, sobel_native
-from Lab1.sobel.utils import print_benchmark, save_gray, benchmark, load_gray
+from Lab1.gaussian_filter.algorithm import adaptive_gaussian_opencv, adaptive_gaussian_native
+from Lab1.gaussian_filter.utils import load_gray, save_gray, print_benchmark
+from Lab1.sobel.utils import benchmark
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 IMAGE_PATH = BASE_DIR / "image.jpg"
-REPEATS = 1
+
+BLOCK_SIZE = 11
+SIGMA = 2.0
+C = 2.0
+
+REPEATS = 5
 
 
 def main() -> None:
@@ -15,23 +21,26 @@ def main() -> None:
     gray = load_gray(str(IMAGE_PATH))
 
     native_result, native_time, native_std = benchmark(
-        sobel_native,
+        adaptive_gaussian_native,
         gray,
+        BLOCK_SIZE,
+        SIGMA,
+        C,
         repeats=REPEATS,
     )
 
     opencv_result, opencv_time, opencv_std = benchmark(
-        sobel_opencv,
+        adaptive_gaussian_opencv,
         gray,
-        repeats=REPEATS
+        BLOCK_SIZE,
+        C,
+        repeats=REPEATS,
     )
 
-    save_gray(native_result,"results/native.png",)
+    save_gray(native_result,"results/native.png")
     save_gray(opencv_result,"results/opencv.png",)
-
     difference = np.abs(native_result.astype(np.int16) - opencv_result.astype(np.int16))
-
-    save_gray(difference, "results/difference.png",)
+    save_gray(difference,"results/difference.png",)
 
     print_benchmark(
         native_time,
@@ -40,7 +49,7 @@ def main() -> None:
         opencv_std,
     )
 
-    print("Mean difference:", np.mean(difference))
+    print("Mean difference:", np.mean(difference),)
 
 
 if __name__ == "__main__":
