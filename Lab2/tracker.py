@@ -117,12 +117,11 @@ class ObjectTracker:
             return TrackingResult(found=False, matches=count)
 
         inliers = int(mask.sum())
+
         if inliers < self.min_inliers or inliers / count < self.min_inlier_ratio:
             return TrackingResult(found=False, matches=count, inliers=inliers)
 
-        corners = cv2.perspectiveTransform(
-            self.ref_corners, matrix
-        ).reshape(4, 2)
+        corners = cv2.perspectiveTransform(self.ref_corners, matrix).reshape(4, 2)
 
         if not self._valid_corners(corners, frame.shape):
             return TrackingResult(found=False, matches=count, inliers=inliers)
