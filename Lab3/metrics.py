@@ -1,8 +1,8 @@
 import numpy as np
 import torch
 from PIL import Image
-from torchmetrics.image import LearnedPerceptualImagePatchSimilarity
-from torchmetrics.multimodal import CLIPImageQualityAssessment
+from torchmetrics.image.lpip import LearnedPerceptualImagePatchSimilarity
+from torchmetrics.multimodal.clip_iqa import CLIPImageQualityAssessment
 
 
 def psnr(reference: Image.Image, prediction: Image.Image, mask: np.ndarray | None = None) -> float:
@@ -53,4 +53,3 @@ class PerceptualMetrics:
         if isinstance(prediction, dict):
             prediction = prediction["quality"]
         return float(prediction.reshape(-1)[0].detach().cpu().item())
-    

@@ -31,29 +31,3 @@ def make_comparison_figure(
     fig.suptitle(title)
     fig.savefig(destination, dpi=140)
     plt.close(fig)
-
-
-def plot_metric_summary(df: pd.DataFrame, output_dir: Path) -> None:
-    if df.empty:
-        return
-    output_dir.mkdir(parents=True, exist_ok=True)
-    definitions = (
-        ("psnr_output", "PSNR (dB) ↑", "psnr_by_mask.png"),
-        ("lpips_output", "LPIPS ↓", "lpips_by_mask.png"),
-        ("clip_iqa_output", "CLIP-IQA ↑", "clip_iqa_by_mask.png"),
-        ("psnr_gain", "PSNR gain (dB)", "psnr_gain_by_mask.png"),
-    )
-    for column, ylabel, filename in definitions:
-        valid = df.replace([float("inf"), float("-inf")], np.nan)
-        pivot = valid.pivot_table(index="degradation", columns="mask", values=column, aggfunc="mean")
-        if pivot.empty:
-            continue
-        ax = pivot.plot.bar(figsize=(10, 5), rot=15, width=0.78)
-        ax.set_ylabel(ylabel)
-        ax.set_xlabel("Degradation")
-        ax.legend(title="Mask")
-        ax.grid(axis="y", alpha=0.3)
-        fig = ax.get_figure()
-        fig.tight_layout()
-        fig.savefig(output_dir / filename, dpi=160)
-        plt.close(fig)
