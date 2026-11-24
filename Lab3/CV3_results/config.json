@@ -1,0 +1,32 @@
+{
+  "source_files": {
+    "01_image": "car (1).webp",
+    "02_image": "image (1).jpg",
+    "03_image": "madk1d (1).jpg"
+  },
+  "image_count": 3,
+  "hr_size": 256,
+  "scale": 4,
+  "steps": 50,
+  "guidance": 2.0,
+  "noise_level": 5,
+  "strength": 0.4,
+  "blend_alpha": 0.85,
+  "scheduler": "DDIMScheduler",
+  "seed": 42,
+  "prompt": "photograph, faithful structure, natural textures",
+  "negative_prompt": "distorted geometry, painting, artificial textures, oversaturation, artifacts",
+  "model": "stabilityai/stable-diffusion-x4-upscaler",
+  "degradations": [
+    "bicubic_x4",
+    "unknown_x4",
+    "realesrgan_like_x4"
+  ],
+  "masks": [
+    "zeros",
+    "ones",
+    "center"
+  ],
+  "mask_value_1": "allow diffusion restoration",
+  "mask_value_0": "keep bicubic baseline"
+}
