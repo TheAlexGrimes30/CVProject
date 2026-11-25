@@ -1,17 +1,17 @@
 {
   "source_files": {
-    "01_image": "car (1).webp",
-    "02_image": "image (1).jpg",
-    "03_image": "madk1d (1).jpg"
+    "01_image": "car.webp",
+    "02_image": "image.jpg",
+    "03_image": "madk1d.jpg"
   },
   "image_count": 3,
-  "hr_size": 256,
+  "hr_size": 512,
   "scale": 4,
-  "steps": 50,
-  "guidance": 2.0,
-  "noise_level": 5,
-  "strength": 0.4,
-  "blend_alpha": 0.85,
+  "steps": 60,
+  "guidance": 4.0,
+  "noise_level": 15,
+  "strength": 0.65,
+  "blend_alpha": 1.0,
   "scheduler": "DDIMScheduler",
   "seed": 42,
   "prompt": "photograph, faithful structure, natural textures",
